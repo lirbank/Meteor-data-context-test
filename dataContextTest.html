@@ -1,0 +1,35 @@
+<body>
+  {{> MainTemplate}}
+</body>
+
+<template name="MainTemplate">
+  {{#with dataOuter}}
+    Parent ID: {{id}}<br>
+
+    {{#with dataInner}}
+      Child ID: {{id}}<br>
+
+      <!-- this button can NOT access the parent data context -->
+      <button id="button1">Button 1 (bad)</button><br>
+
+      <!-- accessing the parent data directly in the template works well -->
+      <!-- from a consistency perspective I would assume this line shouldn't -->
+      <!-- return the parent ID (since button 1 doesn't) -->
+      Parent ID from current context: {{../id}}<br>
+
+      <!-- putting a button in a separate template enables access to the -->
+      <!-- parent data context from it's event handler. -->
+      {{> ButtonTemplate}}
+
+    {{/with}}
+  {{/with}}
+</template>
+
+<template name="ButtonTemplate">
+  <!-- accessing the parent data in the nested template works well, which -->
+  <!-- is consistent with the behavior of following button (button 2) -->
+  Parent ID from current context: {{../id}}<br>
+
+  <!-- this button's event handler CAN access the parent data context -->
+  <button id="button2">Button 2 (good)</button><br>
+</template>
